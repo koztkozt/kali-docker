@@ -20,6 +20,9 @@ RUN apt-get -y install tightvncserver dbus dbus-x11 novnc net-tools
 
 ENV USER root
 
+# Create Kali User
+RUN useradd -rm -d /home/kali -s /bin/bash -g root -G sudo -u 1001 kali -p "$(openssl passwd -1 kali)"
+
 ENV VNCEXPOSE 0
 ENV VNCPORT 5900
 ENV VNCPWD changeme
@@ -31,7 +34,7 @@ ENV NOVNCPORT 8080
 # Install custom packages
 # TODO: You can add your own packages here
 
-RUN apt-get -y install nano
+RUN apt-get -y install nano xrdp
 
 # Entrypoint
 

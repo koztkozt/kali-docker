@@ -1,13 +1,17 @@
 #!/bin/bash
+# enable SSH and XRDP
+systemctl enable ssh --now
+systemctl enable xrdp --now
+service xrdp start
+service ssh start
+
 
 # Set password for VNC
-
 mkdir -p /root/.vnc/
 echo $VNCPWD | vncpasswd -f > /root/.vnc/passwd
 chmod 600 /root/.vnc/passwd
 
 # Start VNC server
-
 if [ $VNCEXPOSE = 1 ]
 then
   # Expose VNC
@@ -33,13 +37,12 @@ fi
 # chmod 600 /etc/ssl/private/novnc_combined.pem
 
 /usr/share/novnc/utils/launch.sh --listen $NOVNCPORT --vnc localhost:$VNCPORT \
-#   --cert /etc/ssl/private/novnc_combined.pem --ssl-only \
+  # --cert /etc/ssl/private/novnc_combined.pem --ssl-only \
   > /var/log/novnc.log 2>&1 &
 
-echo "Launch your web browser and open http://localhost:9020/vnc.html"
+echo "Launch your web browser and open https://localhost:9020/vnc.html"
+# echo "Launch your web browser and open http://localhost:9020/vnc.html"
 # echo "Verify the certificate fingerprint:"
 # openssl x509 -in /etc/ssl/certs/novnc_cert.pem -noout -fingerprint -sha256
 
-# Start shell
-
-/bin/bash
+wait
