@@ -1,10 +1,9 @@
 #!/bin/bash
 # enable SSH and XRDP
-systemctl enable ssh --now
-systemctl enable xrdp --now
-service xrdp start
-service ssh start
-
+/etc/init.d/ssh start
+rm /var/run/xrdp/xrdp-sesman.pid /var/run/xrdp/xrdp.pid 
+/etc/init.d/xrdp start
+/etc/init.d/dbus start
 
 # Set password for VNC
 mkdir -p /root/.vnc/
